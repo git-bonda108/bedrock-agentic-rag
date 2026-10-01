@@ -1,0 +1,13 @@
+{
+  "offline": {
+    "hit_at_k": 0.95,
+    "mrr": 0.85
+  },
+  "live": {
+    "source_hit_rate": 0.85,
+    "fact_recall": 0.8,
+    "abstain_accuracy": 0.75,
+    "grounded_rate": 0.85,
+    "p95_latency_ms": 45000
+  }
+}

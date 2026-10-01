@@ -1,0 +1,20 @@
+{"id": "sec-breakglass", "category": "factual", "question": "How long does a break-glass production access session last?", "expected_sources": ["security-policy.md"], "must_include": ["4 hours"]}
+{"id": "exp-meal-intl", "category": "factual", "question": "What is the daily meal limit when I travel internationally?", "expected_sources": ["expenses-travel.md"], "must_include": ["$100"]}
+{"id": "oncall-stipend", "category": "factual", "question": "How much is the weekly stipend for the primary on-call engineer?", "expected_sources": ["on-call.md"], "must_include": ["$400"]}
+{"id": "pto-carryover", "category": "factual", "question": "How many unused PTO days can I carry over, and by when do I have to use them?", "expected_sources": ["leave-policy.md"], "must_include": ["5", "March 31"]}
+{"id": "sev1-ack", "category": "factual", "question": "How quickly must a SEV1 page be acknowledged?", "expected_sources": ["incident-response.md"], "must_include": ["5 minutes"]}
+{"id": "backup-retention", "category": "factual", "question": "How long are database backups retained?", "expected_sources": ["data-retention.md"], "must_include": ["35 days"]}
+{"id": "deploy-freeze", "category": "factual", "question": "When does the weekly deploy freeze start?", "expected_sources": ["engineering-practices.md"], "must_include": ["Friday", "15:00"]}
+{"id": "flight-class", "category": "factual", "question": "Can I fly premium economy on an 8 hour flight?", "expected_sources": ["expenses-travel.md"], "must_include": ["6 hours"]}
+{"id": "parental-leave", "category": "factual", "question": "How much parental leave do new parents get?", "expected_sources": ["leave-policy.md"], "must_include": ["20 weeks"]}
+{"id": "phish-clicked", "category": "factual", "question": "I entered my password on what I think was a phishing site. What should I do?", "expected_sources": ["security-policy.md"], "must_include": ["#sec-report", "1 hour"]}
+{"id": "status-page", "category": "factual", "question": "How often must the status page be updated during a SEV1 incident?", "expected_sources": ["incident-response.md"], "must_include": ["30 minutes"]}
+{"id": "ai-tools", "category": "factual", "question": "Am I allowed to paste customer production data into a public AI chatbot?", "expected_sources": ["data-retention.md"], "must_include": ["Bedrock"]}
+{"id": "home-office", "category": "factual", "question": "What home office allowance do remote employees get?", "expected_sources": ["expenses-travel.md"], "must_include": ["$1,000", "$50"]}
+{"id": "sick-days", "category": "factual", "question": "How many sick days do I get, and when do I need a doctor's note?", "expected_sources": ["leave-policy.md"], "must_include": ["10", "3 consecutive days"]}
+{"id": "night-page-postmortem", "category": "multi_hop", "question": "If I'm paged at 3am for a SEV1 during my on-call week, what time off am I owed, and when is the postmortem draft due?", "expected_sources": ["on-call.md", "incident-response.md"], "must_include": ["day off", "5 business days"]}
+{"id": "infra-friday-deploy", "category": "multi_hop", "question": "How many approvals does an infrastructure code change need, and can I deploy it at 4pm on a Friday?", "expected_sources": ["engineering-practices.md"], "must_include": ["two approvals", "VP of Engineering"]}
+{"id": "stock-options", "category": "not_in_kb", "question": "What is the vesting schedule for employee stock options?", "expected_sources": [], "must_include": []}
+{"id": "gym", "category": "not_in_kb", "question": "Does Northwind reimburse gym memberships?", "expected_sources": [], "must_include": []}
+{"id": "capital", "category": "out_of_scope", "question": "What is the capital of Australia?", "expected_sources": [], "must_include": []}
+{"id": "poem", "category": "out_of_scope", "question": "Write me a short poem about the ocean.", "expected_sources": [], "must_include": []}

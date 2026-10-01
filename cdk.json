@@ -1,0 +1,15 @@
+{
+  "app": "python infra/app.py",
+  "watch": {
+    "include": ["infra/**", "src/**"]
+  },
+  "context": {
+    "githubRepo": "git-bonda108/bedrock-agentic-rag",
+    "answerModelId": "anthropic.claude-opus-5-5",
+    "judgeModelId": "anthropic.claude-haiku-4-5",
+    "rerankModelId": "amazon.rerank-v1:0",
+    "alarmEmail": "",
+    "@aws-cdk/aws-iam:minimizePolicies": true,
+    "@aws-cdk/core:enablePartitionLiterals": true
+  }
+}

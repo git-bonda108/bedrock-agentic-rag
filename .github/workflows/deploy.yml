@@ -1,0 +1,76 @@
+name: deploy
+
+# Continuous deployment to AWS after CI passes on main, followed by a live eval gate.
+# Enable by setting repository variable AWS_DEPLOY_ENABLED=true and secret
+# AWS_DEPLOY_ROLE_ARN (output of the AgenticRagGithubOidc stack). No AWS keys are stored.
+
+on:
+  workflow_run:
+    workflows: [ci]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: >-
+      vars.AWS_DEPLOY_ENABLED == 'true' &&
+      (github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success')
+    runs-on: ubuntu-latest
+    environment: production
+    env:
+      AWS_REGION: ${{ vars.AWS_REGION || 'us-west-2' }}
+      CDK_DEFAULT_REGION: ${{ vars.AWS_REGION || 'us-west-2' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: "3.12"
+          activate-environment: true
+
+      - run: uv pip install -e ".[dev]"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Deploy (CDK builds and pushes the API image, packages the Lambda)
+        run: |
+          export CDK_DEFAULT_ACCOUNT=$(aws sts get-caller-identity --query Account --output text)
+          ./scripts/build_lambda.sh
+          npx --yes aws-cdk@2 deploy AgenticRagStack --require-approval never
+
+      - name: Seed sample corpus and wait for ingestion
+        run: python scripts/ops.py seed
+
+      - name: Read stack outputs
+        run: python scripts/ops.py outputs >> "$GITHUB_ENV"
+
+      - name: Live eval gate
+        run: |
+          API_KEY=$(aws secretsmanager get-secret-value --secret-id "$API_KEY_SECRET_ARN" \
+            --query SecretString --output text)
+          echo "::add-mask::$API_KEY"
+          API_KEY="$API_KEY" python -m evals.run_evals live
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: eval-reports
+          path: evals/reports/
